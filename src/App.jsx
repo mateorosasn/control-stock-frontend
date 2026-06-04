@@ -2,82 +2,204 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 function App() {
-  const [turnos, setTurnos] = useState([]);
-  const [cliente, setCliente] = useState("");
-  const [servicio, setServicio] = useState("");
+  const [productos, setProductos] = useState([]);
 
-  // Obtener turnos
-  const obtenerTurnos = async () => {
+  const [nombre, setNombre] = useState("");
+  const [stock, setStock] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [categoria, setCategoria] = useState("");
+
+  const [editandoId, setEditandoId] = useState(null);
+const [busqueda, setBusqueda] = useState("");
+  const obtenerProductos = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/turnos");
-      setTurnos(res.data);
+      const res = await axios.get("http://localhost:3000/api/productos");
+      setProductos(res.data);
     } catch (error) {
       console.log(error);
     }
   };
 
   useEffect(() => {
-    obtenerTurnos();
+    obtenerProductos();
   }, []);
 
-  // Crear turno
-  const crearTurno = async (e) => {
+  const guardarProducto = async (e) => {
     e.preventDefault();
 
     try {
-      await axios.post("http://localhost:3000/api/turnos", {
-        cliente,
-        servicio,
-      });
+      if (editandoId) {
+        await axios.put(
+          `http://localhost:3000/api/productos/${editandoId}`,
+          {
+            nombre,
+            stock,
+            descripcion,
+            categoria,
+          }
+        );
 
-      setCliente("");
-      setServicio("");
+        setEditandoId(null);
+      } else {
+        await axios.post("http://localhost:3000/api/productos", {
+          nombre,
+          stock,
+          descripcion,
+          categoria,
+        });
+      }
 
-      obtenerTurnos();
+      setNombre("");
+      setStock("");
+      setDescripcion("");
+      setCategoria("");
+
+      obtenerProductos();
     } catch (error) {
       console.log(error);
     }
   };
 
+  const eliminarProducto = async (id) => {
+    try {
+      await axios.delete(
+        `http://localhost:3000/api/productos/${id}`
+      );
+
+      obtenerProductos();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const editarProducto = (producto) => {
+    setNombre(producto.nombre);
+    setStock(producto.stock);
+    setDescripcion(producto.descripcion);
+    setCategoria(producto.categoria);
+
+    setEditandoId(producto._id);
+  };
+
   return (
-    <div style={{ padding: "20px" }}>
-      <h1>Barbería 💈</h1>
+    <div className="container mt-4">
+      <div className="card shadow p-4">
+        <h1 className="text-center mb-4">
+          Control de Stock 📦
+        </h1>
 
-      <form onSubmit={crearTurno}>
-        <input
-          type="text"
-          placeholder="Nombre del cliente"
-          value={cliente}
-          onChange={(e) => setCliente(e.target.value)}
-        />
+        <form onSubmit={guardarProducto}>
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Nombre del producto"
+              value={nombre}
+              onChange={(e) => setNombre(e.target.value)}
+            />
+          </div>
 
-        <br />
-        <br />
+          <div className="mb-3">
+            <input
+              type="number"
+              className="form-control"
+              placeholder="Stock"
+              value={stock}
+              onChange={(e) => setStock(e.target.value)}
+            />
+          </div>
 
-        <input
-          type="text"
-          placeholder="Servicio"
-          value={servicio}
-          onChange={(e) => setServicio(e.target.value)}
-        />
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Descripción"
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+            />
+          </div>
 
-        <br />
-        <br />
+          <div className="mb-3">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Categoría"
+              value={categoria}
+              onChange={(e) => setCategoria(e.target.value)}
+            />
+          </div>
 
-        <button type="submit">Crear turno</button>
-      </form>
+          <button
+            type="submit"
+            className="btn btn-primary w-100"
+          >
+            {editandoId
+              ? "Actualizar Producto"
+              : "Guardar Producto"}
+          </button>
+        </form>
+      </div>
 
-      <hr />
+      <h2 className="mt-5 mb-3">Productos</h2>
+      <div className="mb-3">
+  <input
+    type="text"
+    className="form-control"
+    placeholder="Buscar producto..."
+    value={busqueda}
+    onChange={(e) => setBusqueda(e.target.value)}
+  />
+</div>
 
-      <h2>Turnos</h2>
+      <div className="row">
+        {productos.map((producto) => (
+          <div
+            key={producto._id}
+            className="col-md-4 mb-3"
+          >
+            <div className="card h-100 shadow-sm">
+              <div className="card-body">
+                <h5 className="card-title">
+                  {producto.nombre}
+                </h5>
 
-      {turnos.map((turno) => (
-        <div key={turno._id}>
-          <h3>{turno.cliente}</h3>
-          <p>{turno.servicio}</p>
-          <hr />
-        </div>
-      ))}
+                <p className="card-text">
+                  <strong>Stock:</strong>{" "}
+                  {producto.stock}
+                </p>
+
+                <p className="card-text">
+                  <strong>Descripción:</strong>{" "}
+                  {producto.descripcion}
+                </p>
+
+                <p className="card-text">
+                  <strong>Categoría:</strong>{" "}
+                  {producto.categoria}
+                </p>
+
+                <button
+                  className="btn btn-warning me-2"
+                  onClick={() =>
+                    editarProducto(producto)
+                  }
+                >
+                  Editar
+                </button>
+
+                <button
+                  className="btn btn-danger"
+                  onClick={() =>
+                    eliminarProducto(producto._id)
+                  }
+                >
+                  Eliminar
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
