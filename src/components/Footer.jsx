@@ -1,21 +1,50 @@
 function Footer() {
   return (
-    <footer className="bg-dark text-white text-center mt-5 p-4">
+    <footer className="bg-dark text-white mt-5">
+      <div className="container py-4">
+        <div className="row">
+          <div className="col-md-4">
+            <h4>💈 Barbería Premium</h4>
+            <p>
+              Los mejores cortes clásicos y modernos, con atención personalizada
+              y profesionales de primer nivel.
+            </p>
+          </div>
 
-      <h5>💈 Barbería Premium</h5>
+          <div className="col-md-4">
+            <h4>📍 Contacto</h4>
 
-      <p>📍 San Miguel de Tucumán - Argentina</p>
+            <p>San Miguel de Tucumán</p>
 
-      <p>📞 Teléfono: +54 381 123-4567</p>
+            <p>📞 +54 381 123-4567</p>
 
-      <p>✉️ Email: contacto@barberiapremium.com</p>
+            <p>✉️ barberiapremium@gmail.com</p>
+          </div>
 
-      <hr />
+          <div className="col-md-4">
+            <h4>🔗 Enlaces</h4>
 
-      <p>Sobre Nosotros | Política de Privacidad | Términos y Condiciones</p>
+            <p>Inicio</p>
 
-      <p>© 2026 Barbería Premium - Todos los derechos reservados.</p>
+            <p>Servicios</p>
 
+            <p>Reservar Turno</p>
+
+            <p>Sobre Nosotros</p>
+
+            <p>Política de Privacidad</p>
+          </div>
+        </div>
+
+        <hr className="border-light" />
+
+        <div className="text-center">
+          <p className="mb-1">
+            © 2026 Barbería Premium - Todos los derechos reservados.
+          </p>
+
+        </div>
+      </div>
     </footer>
   );
 }

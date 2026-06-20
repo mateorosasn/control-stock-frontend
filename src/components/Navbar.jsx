@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Navbar() {
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow">
 
       <div className="container">
 
@@ -14,14 +14,17 @@ function Navbar() {
           className="navbar-toggler"
           type="button"
           data-bs-toggle="collapse"
-          data-bs-target="#menu"
+          data-bs-target="#navbarNav"
         >
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div className="collapse navbar-collapse" id="menu">
+        <div
+          className="collapse navbar-collapse"
+          id="navbarNav"
+        >
 
-          <ul className="navbar-nav ms-auto">
+          <ul className="navbar-nav me-auto">
 
             <li className="nav-item">
               <Link className="nav-link" to="/">
@@ -30,18 +33,36 @@ function Navbar() {
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/login">
-                Iniciar sesión
+              <Link className="nav-link" to="/servicios">
+                Servicios
               </Link>
             </li>
 
             <li className="nav-item">
-              <Link className="nav-link" to="/registro">
-                Registrarse
+              <Link className="nav-link" to="/turnos">
+                Reservas
               </Link>
             </li>
 
           </ul>
+
+          <form className="d-flex me-3">
+
+            <input
+              className="form-control"
+              type="search"
+              placeholder="Buscar..."
+            />
+
+          </form>
+
+          <button className="btn btn-outline-light me-2">
+            Iniciar Sesión
+          </button>
+
+          <button className="btn btn-warning">
+            Registrarse
+          </button>
 
         </div>
 
