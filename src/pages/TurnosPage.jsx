@@ -17,11 +17,9 @@ function TurnosPage() {
   const [hora, setHora] = useState("");
   const [turnos, setTurnos] = useState([]);
 
-  //  estado edición
   const [modoEdicion, setModoEdicion] = useState(false);
   const [idEditando, setIdEditando] = useState(null);
 
-  //  cargar turnos
   const cargarTurnos = async () => {
     try {
       const res = await obtenerTurnos();
@@ -35,7 +33,6 @@ function TurnosPage() {
     cargarTurnos();
   }, []);
 
-  //  crear o editar turno
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -73,7 +70,6 @@ function TurnosPage() {
     }
   };
 
-  //  eliminar turno
   const handleEliminar = async (id) => {
     try {
       await eliminarTurno(id);
@@ -83,7 +79,6 @@ function TurnosPage() {
     }
   };
 
-  //  iniciar edición
   const handleEditar = (turno) => {
     setModoEdicion(true);
     setIdEditando(turno._id);
@@ -99,97 +94,155 @@ function TurnosPage() {
     <>
       <Navbar />
 
-      <div className="container mt-5">
-        <h1 className="text-center mb-4">
-          {modoEdicion ? "Editar Turno ✏️" : "Reservar Turno 💈"}
-        </h1>
+      <div
+        className="container-fluid py-5"
+        style={{
+          backgroundColor: "#111",
+          minHeight: "100vh",
+          color: "white",
+        }}
+      >
+        <div className="container">
 
-        {/* FORMULARIO */}
-        <form className="card p-4 shadow" onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Nombre"
-            className="form-control mb-2"
-            value={nombre}
-            onChange={(e) => setNombre(e.target.value)}
-            required
-          />
-
-          <input
-            type="tel"
-            placeholder="Teléfono"
-            className="form-control mb-2"
-            value={telefono}
-            onChange={(e) =>
-              setTelefono(e.target.value.replace(/\D/g, ""))
-            }
-            minLength={5}
-            maxLength={20}
-            required
-          />
-
-          <select
-            className="form-control mb-2"
-            value={servicio}
-            onChange={(e) => setServicio(e.target.value)}
+          <h1
+            className="text-center fw-bold mb-5"
+            style={{
+              color: "#2E8B4D",
+              fontSize: "2.8rem",
+              textTransform: "uppercase",
+              letterSpacing: "2px",
+            }}
           >
-            <option>Corte Clásico</option>
-            <option>Barba</option>
-            <option>Corte + Barba</option>
-          </select>
+            {modoEdicion ? "Editar Turno ✏️" : "Reservar Turno 💈"}
+          </h1>
 
-          <input
-            type="date"
-            className="form-control mb-2"
-            value={fecha}
-            onChange={(e) => setFecha(e.target.value)}
-            required
-          />
+          <div
+            className="card bg-dark text-white shadow-lg p-4 mb-5"
+            style={{ border: "2px solid #2E8B4D" }}
+          >
+            <form onSubmit={handleSubmit}>
 
-          <input
-            type="time"
-            className="form-control mb-3"
-            value={hora}
-            onChange={(e) => setHora(e.target.value)}
-            required
-          />
+              <input
+                type="text"
+                placeholder="Nombre"
+                className="form-control mb-3"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+                required
+              />
 
-          <button className="btn btn-warning w-100">
-            {modoEdicion ? "Actualizar Turno" : "Reservar"}
-          </button>
-        </form>
+              <input
+                type="tel"
+                placeholder="Teléfono"
+                className="form-control mb-3"
+                value={telefono}
+                onChange={(e) =>
+                  setTelefono(e.target.value.replace(/\D/g, ""))
+                }
+                required
+              />
 
-        {/* LISTA DE TURNOS */}
-        <div className="mt-5">
-          <h2>Turnos Reservados</h2>
+              <select
+                className="form-control mb-3"
+                value={servicio}
+                onChange={(e) => setServicio(e.target.value)}
+              >
+                <option>Corte Clásico</option>
+                <option>Barba</option>
+                <option>Corte + Barba</option>
+              </select>
+
+              <input
+                type="date"
+                className="form-control mb-3"
+                value={fecha}
+                onChange={(e) => setFecha(e.target.value)}
+                required
+              />
+
+              <input
+                type="time"
+                className="form-control mb-4"
+                value={hora}
+                onChange={(e) => setHora(e.target.value)}
+                required
+              />
+
+              <button
+                className="btn w-100 fw-bold text-white"
+                style={{ backgroundColor: "#2E8B4D" }}
+              >
+                {modoEdicion ? "Actualizar Turno" : "Reservar Turno"}
+              </button>
+
+            </form>
+          </div>
+
+          <h2
+            className="fw-bold mb-4"
+            style={{ color: "#2E8B4D" }}
+          >
+            Turnos Reservados
+          </h2>
 
           {turnos.length === 0 ? (
-            <p>No hay turnos aún</p>
+            <p>No hay turnos registrados.</p>
           ) : (
-            turnos.map((turno) => (
-              <div key={turno._id} className="card p-3 mb-2">
-                <h5>{turno.nombre}</h5>
+            <div className="row">
+              {turnos.map((turno) => (
+                <div className="col-md-6 mb-4" key={turno._id}>
+                  <div
+                    className="card shadow-lg h-100"
+                    style={{ border: "2px solid #2E8B4D" }}
+                  >
+                    <div className="card-body">
 
-                <p>
-                  {turno.servicio} | {turno.fecha} | {turno.hora}
-                </p>
+                      <h4
+                        className="fw-bold"
+                        style={{ color: "#2E8B4D" }}
+                      >
+                        {turno.nombre}
+                      </h4>
 
-                <button
-                  className="btn btn-primary me-2"
-                  onClick={() => handleEditar(turno)}
-                >
-                  Editar
-                </button>
+                      <p>
+                        <strong>📞 Teléfono:</strong> {turno.telefono}
+                      </p>
 
-                <button
-                  className="btn btn-danger"
-                  onClick={() => handleEliminar(turno._id)}
-                >
-                  Eliminar
-                </button>
-              </div>
-            ))
+                      <p>
+                        <strong>💈 Servicio:</strong> {turno.servicio}
+                      </p>
+
+                      <p>
+                        <strong>📅 Fecha:</strong> {turno.fecha}
+                      </p>
+
+                      <p>
+                        <strong>🕒 Hora:</strong> {turno.hora}
+                      </p>
+
+                      <button
+                        className="btn me-2 text-white"
+                        style={{ backgroundColor: "#2E8B4D" }}
+                        onClick={() => handleEditar(turno)}
+                      >
+                        Editar
+                      </button>
+
+                      <button
+                        className="btn btn-danger"
+                        onClick={() => handleEliminar(turno._id)}
+                      >
+                        Eliminar
+                      </button>
+
+                    </div>
+
+                  </div>
+                </div>
+              ))}
+            </div>
           )}
+
         </div>
       </div>
 

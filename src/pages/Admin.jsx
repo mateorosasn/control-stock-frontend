@@ -4,23 +4,31 @@ import axios from "axios";
 
 function Admin() {
   const [turnos, setTurnos] = useState([]);
+  const [hora, setHora] = useState(new Date());
+
   const navigate = useNavigate();
 
-  // 🛡️ PROTECCIÓN
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+
   useEffect(() => {
     const admin = localStorage.getItem("admin");
 
     if (!admin) {
       navigate("/login");
     }
+  }, [navigate]);
+
+  useEffect(() => {
+    const intervalo = setInterval(() => {
+      setHora(new Date());
+    }, 1000);
+
+    return () => clearInterval(intervalo);
   }, []);
 
-  // 📥 cargar turnos
   const cargarTurnos = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:3000/api/turnos"
-      );
+      const res = await axios.get("http://localhost:3000/api/turnos");
       setTurnos(res.data);
     } catch (error) {
       console.log(error);
@@ -31,82 +39,198 @@ function Admin() {
     cargarTurnos();
   }, []);
 
-  // ❌ eliminar turno
   const eliminarTurno = async (id) => {
     try {
-      await axios.delete(
-        `http://localhost:3000/api/turnos/${id}`
-      );
-
-      setTurnos((prev) =>
-        prev.filter((t) => t._id !== id)
-      );
+      await axios.delete(`http://localhost:3000/api/turnos/${id}`);
+      setTurnos((prev) => prev.filter((t) => t._id !== id));
     } catch (error) {
       console.log(error);
     }
   };
 
-  // 🚪 logout
   const logout = () => {
     localStorage.removeItem("admin");
-    navigate("/login");
+    localStorage.removeItem("usuario");
+    navigate("/");
   };
 
   return (
-    <div className="container mt-5">
+    <div
+  className="container-fluid py-5"
+  style={{
+    backgroundColor: "#111",
+    minHeight: "100vh",
+    color: "white",
+  }}
+>
+  <div className="container">
 
-      {/* HEADER */}
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h1>Dashboard Admin 💈</h1>
+    <div className="d-flex justify-content-between align-items-center mb-5">
 
-        <button
-          className="btn btn-danger"
-          onClick={logout}
+      <div>
+        <h1 className="fw-bold" style={{ color: "#2E8B4D" }}>
+          💈 Panel de Administración
+        </h1>
+
+        <h5 className="text-light">
+          Bienvenido, {usuario?.nombre}
+        </h5>
+
+        <small style={{ color: "#2E8B4D" }}>
+          🕒 {hora.toLocaleTimeString()}
+        </small>
+      </div>
+
+      <button
+        className="btn btn-danger"
+        onClick={logout}
+      >
+        Cerrar sesión
+      </button>
+
+    </div>
+
+    <div className="row g-4 mb-5">
+
+      <div className="col-md-3">
+        <div
+          className="card text-center p-4 shadow-lg"
+          style={{ border: "2px solid #2E8B4D", borderRadius: "15px" }}
         >
-          Cerrar sesión
-        </button>
+          <h1>📅</h1>
+          <h5>Turnos</h5>
+          <h2>{turnos.length}</h2>
+        </div>
       </div>
 
-      {/* ESTADÍSTICA SIMPLE */}
-      <div className="alert alert-info">
-        Total de turnos: {turnos.length}
+      <div className="col-md-3">
+        <div
+          className="card text-center p-4 shadow-lg"
+          style={{ border: "2px solid #2E8B4D", borderRadius: "15px" }}
+        >
+          <h1>✂️</h1>
+          <h5>Servicios</h5>
+          <h2>3</h2>
+        </div>
       </div>
 
-      {/* LISTA DE TURNOS */}
-      <div className="row">
-        {turnos.length === 0 ? (
-          <p>No hay turnos registrados</p>
-        ) : (
-          turnos.map((turno) => (
-            <div
-              key={turno._id}
-              className="col-md-6 mb-3"
+      <div className="col-md-3">
+        <div
+          className="card text-center p-4 shadow-lg"
+          style={{ border: "2px solid #2E8B4D", borderRadius: "15px" }}
+        >
+          <h1>👥</h1>
+          <h5>Usuarios</h5>
+          <h2>--</h2>
+        </div>
+      </div>
+
+      <div className="col-md-3">
+        <div
+          className="card text-center p-4 shadow-lg"
+          style={{ border: "2px solid #2E8B4D", borderRadius: "15px" }}
+        >
+          <h1>🟢</h1>
+          <h5>Sistema</h5>
+          <h2 style={{ color: "#2E8B4D" }}>Activo</h2>
+        </div>
+      </div>
+
+    </div>
+
+    <h2
+      className="fw-bold mb-4"
+      style={{ color: "#2E8B4D" }}
+    >
+      📋 Reservas Registradas
+    </h2>
+    <div className="row">
+
+  {turnos.length === 0 ? (
+
+    <div className="text-center py-5">
+      <h3>📭 No hay turnos registrados.</h3>
+
+      <p className="text-secondary">
+        Cuando los clientes reserven un turno aparecerán aquí.
+      </p>
+    </div>
+
+  ) : (
+
+    turnos.map((turno) => (
+
+      <div
+        className="col-lg-6 mb-4"
+        key={turno._id}
+      >
+
+        <div
+          className="card shadow-lg h-100"
+          style={{
+            backgroundColor: "#1b1b1b",
+            color: "white",
+            border: "2px solid #2E8B4D",
+            borderRadius: "20px",
+          }}
+        >
+
+          <div className="card-body">
+
+            <h3
+              className="fw-bold mb-3"
+              style={{ color: "#2E8B4D" }}
             >
-              <div className="card p-3 shadow">
+              👤 {turno.nombre}
+            </h3>
 
-                <h5>{turno.nombre}</h5>
+            <p>
+              <strong>📞 Teléfono:</strong> {turno.telefono}
+            </p>
 
-                <p>
-                  📞 {turno.telefono}
-                  <br />
-                  💇 {turno.servicio}
-                  <br />
-                  📅 {turno.fecha} - ⏰ {turno.hora}
-                </p>
+            <p>
+              <strong>✂️ Servicio:</strong> {turno.servicio}
+            </p>
 
-                <button
-                  className="btn btn-danger"
-                  onClick={() =>
-                    eliminarTurno(turno._id)
-                  }
-                >
-                  Eliminar
-                </button>
+            <p>
+              <strong>📅 Fecha:</strong> {turno.fecha}
+            </p>
 
-              </div>
+            <p>
+              <strong>🕒 Hora:</strong> {turno.hora}
+            </p>
+
+            <hr />
+
+            <div className="d-flex gap-2">
+
+              <button
+                className="btn btn-success w-50"
+              >
+                ✔ Confirmar
+              </button>
+
+              <button
+                className="btn btn-danger w-50"
+                onClick={() => eliminarTurno(turno._id)}
+              >
+                🗑 Eliminar
+              </button>
+
             </div>
-          ))
-        )}
+
+          </div>
+
+        </div>
+
+      </div>
+
+    ))
+
+  )}
+
+</div>
+
       </div>
     </div>
   );
