@@ -1,8 +1,8 @@
+import { Link } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
-import { Link } from "react-router-dom";
 
-function ServicesPage() {
+function Error404() {
   return (
     <>
       <Navbar />
@@ -20,19 +20,16 @@ function ServicesPage() {
           <div
             style={{
               fontSize: "90px",
-              marginBottom: "10px",
             }}
           >
-            🦖 
+            🦖 ❌
           </div>
-
 
           <h1
             className="fw-bold"
             style={{
               fontSize: "7rem",
               color: "#2E8B4D",
-              margin: "0",
             }}
           >
             404
@@ -49,23 +46,18 @@ function ServicesPage() {
           </h2>
 
 
-          <p
-            className="lead mb-4"
-            style={{
-              color: "white",
-            }}
-          >
+          <p className="lead mb-4">
             Nuestro dinosaurio no encontró esta sección 💈
           </p>
 
 
           <Link
             to="/"
-            className="btn btn-lg text-white fw-bold"
+            className="btn text-white fw-bold"
             style={{
               backgroundColor: "#2E8B4D",
-              borderRadius: "10px",
               padding: "12px 35px",
+              borderRadius: "10px",
             }}
           >
             Volver al inicio
@@ -74,10 +66,9 @@ function ServicesPage() {
         </div>
       </div>
 
-
       <Footer />
     </>
   );
 }
 
-export default ServicesPage;
+export default Error404;

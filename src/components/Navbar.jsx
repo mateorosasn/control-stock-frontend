@@ -1,11 +1,25 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
-  return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+  const navigate = useNavigate();
+
+  const admin = localStorage.getItem("admin");
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
+
+  const cerrarSesion = () => {
+    localStorage.removeItem("admin");
+    localStorage.removeItem("usuario");
+    navigate("/");
+  };
+
+  return ( <nav className="navbar navbar-expand-lg navbar-dark bg-black shadow-lg">
       <div className="container">
 
-        <Link className="navbar-brand fw-bold" to="/">
+        <Link
+          className="navbar-brand fw-bold fs-3"
+          style={{ color: "#2E8B4D" }}
+          to="/"
+        >
           💈 Barbería Premium
         </Link>
 
@@ -18,12 +32,9 @@ function Navbar() {
           <span className="navbar-toggler-icon"></span>
         </button>
 
-        <div
-          className="collapse navbar-collapse"
-          id="navbarNav"
-        >
+        <div className="collapse navbar-collapse" id="navbarNav">
 
-          <ul className="navbar-nav me-auto">
+          <ul className="navbar-nav mx-auto">
 
             <li className="nav-item">
               <Link className="nav-link" to="/">
@@ -51,21 +62,54 @@ function Navbar() {
 
           </ul>
 
-          <form className="d-flex me-3">
-            <input
-              className="form-control"
-              type="search"
-              placeholder="Buscar..."
-            />
-          </form>
+          {admin ? (
+            <>
+              <Link
+                to="/admin"
+                className="btn text-white me-2"
+                style={{ backgroundColor: "#2E8B4D", border: "none" }}
+              >
+                Panel Admin
+              </Link>
 
-          <Link to="/login" className="btn btn-outline-light me-2">
-            Iniciar Sesión
-          </Link>
+              <button
+                className="btn btn-danger"
+                onClick={cerrarSesion}
+              >
+                Cerrar sesión
+              </button>
+            </>
+          ) : usuario ? (
+            <>
+              <span className="text-white me-3 fw-bold">
+                👤 Hola, {usuario.nombre}
+              </span>
 
-          <Link to="/register" className="btn btn-warning">
-            Registrarse
-          </Link>
+              <button
+                className="btn btn-danger"
+                onClick={cerrarSesion}
+              >
+                Cerrar sesión
+              </button>
+            </>
+          ) : (
+            <>
+              <Link
+                to="/login"
+                className="btn btn-outline-light me-2"
+              >
+                Iniciar Sesión
+              </Link>
+
+              <Link
+                to="/register"
+                className="btn text-white"
+                style={{ backgroundColor: "#2E8B4D", border: "none" }}
+              >
+                Registrarse
+              </Link>
+            </>
+          )}
 
         </div>
 
