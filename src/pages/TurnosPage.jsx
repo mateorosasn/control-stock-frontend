@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import axios from "axios";
+
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
@@ -12,9 +14,15 @@ import {
 function TurnosPage() {
   const [nombre, setNombre] = useState("");
   const [telefono, setTelefono] = useState("");
-  const [servicio, setServicio] = useState("Corte Clásico");
+
+  const [servicio, setServicio] = useState("");
+  const [servicios, setServicios] = useState([]);
+
+  const [barbero, setBarbero] = useState("Juan Pérez");
+
   const [fecha, setFecha] = useState("");
   const [hora, setHora] = useState("");
+
   const [turnos, setTurnos] = useState([]);
 
   const [modoEdicion, setModoEdicion] = useState(false);
@@ -29,11 +37,26 @@ function TurnosPage() {
     }
   };
 
+  const cargarServicios = async () => {
+    try {
+      const res = await axios.get(
+        "http://localhost:3000/api/servicios"
+      );
+
+      setServicios(res.data);
+
+      if (res.data.length > 0) {
+        setServicio(res.data[0]._id);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     cargarTurnos();
-  }, []);
-
-  const handleSubmit = async (e) => {
+    cargarServicios();
+  }, []);const handleSubmit = async (e) => {
     e.preventDefault();
 
     try {
@@ -42,6 +65,7 @@ function TurnosPage() {
           nombre,
           telefono,
           servicio,
+          barbero,
           fecha,
           hora,
         });
@@ -53,6 +77,7 @@ function TurnosPage() {
           nombre,
           telefono,
           servicio,
+          barbero,
           fecha,
           hora,
         });
@@ -62,7 +87,8 @@ function TurnosPage() {
 
       setNombre("");
       setTelefono("");
-      setServicio("Corte Clásico");
+      setServicio(servicios.length > 0 ? servicios[0]._id : "");
+      setBarbero("Juan Pérez");
       setFecha("");
       setHora("");
     } catch (error) {
@@ -73,7 +99,7 @@ function TurnosPage() {
   const handleEliminar = async (id) => {
     try {
       await eliminarTurno(id);
-      setTurnos((prev) => prev.filter((t) => t._id !== id));
+      await cargarTurnos();
     } catch (error) {
       console.log(error);
     }
@@ -85,7 +111,8 @@ function TurnosPage() {
 
     setNombre(turno.nombre);
     setTelefono(turno.telefono);
-    setServicio(turno.servicio);
+    setServicio(turno.servicio?._id || turno.servicio);
+    setBarbero(turno.barbero);
     setFecha(turno.fecha);
     setHora(turno.hora);
   };
@@ -114,18 +141,19 @@ function TurnosPage() {
             }}
           >
             {modoEdicion ? "Editar Turno ✏️" : "Reservar Turno 💈"}
-          </h1>
-
-          <div
+          </h1><div
             className="card bg-dark text-white shadow-lg p-4 mb-5"
-            style={{ border: "2px solid #2E8B4D" }}
+            style={{
+              border: "2px solid #2E8B4D",
+              borderRadius: "20px",
+            }}
           >
             <form onSubmit={handleSubmit}>
 
               <input
                 type="text"
-                placeholder="Nombre"
                 className="form-control mb-3"
+                placeholder="Nombre completo"
                 value={nombre}
                 onChange={(e) => setNombre(e.target.value)}
                 required
@@ -133,8 +161,8 @@ function TurnosPage() {
 
               <input
                 type="tel"
-                placeholder="Teléfono"
                 className="form-control mb-3"
+                placeholder="Teléfono"
                 value={telefono}
                 onChange={(e) =>
                   setTelefono(e.target.value.replace(/\D/g, ""))
@@ -146,10 +174,26 @@ function TurnosPage() {
                 className="form-control mb-3"
                 value={servicio}
                 onChange={(e) => setServicio(e.target.value)}
+                required
               >
-                <option>Corte Clásico</option>
-                <option>Barba</option>
-                <option>Corte + Barba</option>
+                {servicios.map((s) => (
+                  <option key={s._id} value={s._id}>
+                    {s.nombre}
+                  </option>
+                ))}
+              </select>
+
+              <select
+                className="form-control mb-3"
+                value={barbero}
+                onChange={(e) => setBarbero(e.target.value)}
+              >
+                <option>Juan Pérez</option>
+                <option>Carlos Gómez</option>
+                <option>Lucas Fernández</option>
+                <option>Martín Rodríguez</option>
+                <option>Nicolás Díaz</option>
+                <option>Facundo López</option>
               </select>
 
               <input
@@ -169,16 +213,20 @@ function TurnosPage() {
               />
 
               <button
+                type="submit"
                 className="btn w-100 fw-bold text-white"
-                style={{ backgroundColor: "#2E8B4D" }}
+                style={{
+                  backgroundColor: "#2E8B4D",
+                  border: "none",
+                }}
               >
-                {modoEdicion ? "Actualizar Turno" : "Reservar Turno"}
+                {modoEdicion
+                  ? "Actualizar Turno"
+                  : "Reservar Turno"}
               </button>
 
             </form>
-          </div>
-
-          <h2
+          </div><h2
             className="fw-bold mb-4"
             style={{ color: "#2E8B4D" }}
           >
@@ -186,30 +234,45 @@ function TurnosPage() {
           </h2>
 
           {turnos.length === 0 ? (
-            <p>No hay turnos registrados.</p>
+            <div className="text-center py-5">
+              <h3>📭 No hay turnos registrados</h3>
+              <p className="text-secondary">
+                Los turnos reservados aparecerán aquí.
+              </p>
+            </div>
           ) : (
             <div className="row">
               {turnos.map((turno) => (
                 <div className="col-md-6 mb-4" key={turno._id}>
                   <div
                     className="card shadow-lg h-100"
-                    style={{ border: "2px solid #2E8B4D" }}
+                    style={{
+                      backgroundColor: "#1b1b1b",
+                      color: "white",
+                      border: "2px solid #2E8B4D",
+                      borderRadius: "20px",
+                    }}
                   >
                     <div className="card-body">
 
-                      <h4
-                        className="fw-bold"
+                      <h3
+                        className="fw-bold mb-3"
                         style={{ color: "#2E8B4D" }}
                       >
-                        {turno.nombre}
-                      </h4>
+                        👤 {turno.nombre}
+                      </h3>
 
                       <p>
                         <strong>📞 Teléfono:</strong> {turno.telefono}
                       </p>
 
                       <p>
-                        <strong>💈 Servicio:</strong> {turno.servicio}
+                        <strong>💈 Servicio:</strong>{" "}
+                        {turno.servicio?.nombre}
+                      </p>
+
+                      <p>
+                        <strong>🧔 Barbero:</strong> {turno.barbero}
                       </p>
 
                       <p>
@@ -220,30 +283,36 @@ function TurnosPage() {
                         <strong>🕒 Hora:</strong> {turno.hora}
                       </p>
 
-                      <button
-                        className="btn me-2 text-white"
-                        style={{ backgroundColor: "#2E8B4D" }}
-                        onClick={() => handleEditar(turno)}
-                      >
-                        Editar
-                      </button>
+                      <hr />
 
-                      <button
-                        className="btn btn-danger"
-                        onClick={() => handleEliminar(turno._id)}
-                      >
-                        Eliminar
-                      </button>
+                      <div className="d-flex gap-2">
+
+                        <button
+                          className="btn text-white"
+                          style={{
+                            backgroundColor: "#2E8B4D",
+                            border: "none",
+                          }}
+                          onClick={() => handleEditar(turno)}
+                        >
+                          ✏️ Editar
+                        </button>
+
+                        <button
+                          className="btn btn-danger"
+                          onClick={() => handleEliminar(turno._id)}
+                        >
+                          🗑️ Eliminar
+                        </button>
+
+                      </div>
 
                     </div>
-
                   </div>
                 </div>
               ))}
             </div>
-          )}
-
-        </div>
+          )}</div>
       </div>
 
       <Footer />
