@@ -27,6 +27,8 @@ function TurnosPage() {
 
   const [modoEdicion, setModoEdicion] = useState(false);
   const [idEditando, setIdEditando] = useState(null);
+  const [mensaje, setMensaje] = useState("");
+  const [errorFecha, setErrorFecha] = useState("");
 
   const cargarTurnos = async () => {
     try {
@@ -34,14 +36,19 @@ function TurnosPage() {
       setTurnos(res.data);
     } catch (error) {
       console.log(error);
+
+      if (error.response) {
+        setMensaje(error.response.data.message);
+        s;
+      } else {
+        setMensaje("Error al reservar el turno");
+      }
     }
   };
 
   const cargarServicios = async () => {
     try {
-      const res = await axios.get(
-        "http://localhost:3000/api/servicios"
-      );
+      const res = await axios.get("http://localhost:3000/api/servicios");
 
       setServicios(res.data);
 
@@ -49,15 +56,39 @@ function TurnosPage() {
         setServicio(res.data[0]._id);
       }
     } catch (error) {
-      console.log(error);
+      console.log("ERROR:", error);
+      console.log("RESPONSE:", error.response);
+      console.log("DATA:", error.response?.data);
+
+      alert("Entró al catch");
+
+      if (error.response) {
+        setMensaje(error.response.data.message);
+      } else {
+        setMensaje("Error al reservar el turno");
+      }
     }
   };
 
   useEffect(() => {
     cargarTurnos();
     cargarServicios();
-  }, []);const handleSubmit = async (e) => {
+  }, []);
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Limpiar mensaje anterior
+    setMensaje("");
+    setErrorFecha("");
+
+    const hoy = new Date().toISOString().split("T")[0];
+
+    if (fecha < hoy) {
+      setErrorFecha(
+        "❌ No se pueden reservar turnos en fechas anteriores al día de hoy.",
+      );
+      return;
+    }
 
     try {
       if (modoEdicion) {
@@ -91,17 +122,15 @@ function TurnosPage() {
       setBarbero("Juan Pérez");
       setFecha("");
       setHora("");
+      setMensaje("");
     } catch (error) {
       console.log(error);
-    }
-  };
 
-  const handleEliminar = async (id) => {
-    try {
-      await eliminarTurno(id);
-      await cargarTurnos();
-    } catch (error) {
-      console.log(error);
+      if (error.response) {
+        setMensaje(error.response.data.message);
+      } else {
+        setMensaje("Error al reservar el turno.");
+      }
     }
   };
 
@@ -130,7 +159,6 @@ function TurnosPage() {
         }}
       >
         <div className="container">
-
           <h1
             className="text-center fw-bold mb-5"
             style={{
@@ -141,7 +169,8 @@ function TurnosPage() {
             }}
           >
             {modoEdicion ? "Editar Turno ✏️" : "Reservar Turno 💈"}
-          </h1><div
+          </h1>
+          <div
             className="card bg-dark text-white shadow-lg p-4 mb-5"
             style={{
               border: "2px solid #2E8B4D",
@@ -149,7 +178,6 @@ function TurnosPage() {
             }}
           >
             <form onSubmit={handleSubmit}>
-
               <input
                 type="text"
                 className="form-control mb-3"
@@ -164,9 +192,7 @@ function TurnosPage() {
                 className="form-control mb-3"
                 placeholder="Teléfono"
                 value={telefono}
-                onChange={(e) =>
-                  setTelefono(e.target.value.replace(/\D/g, ""))
-                }
+                onChange={(e) => setTelefono(e.target.value.replace(/\D/g, ""))}
                 required
               />
 
@@ -211,7 +237,14 @@ function TurnosPage() {
                 onChange={(e) => setHora(e.target.value)}
                 required
               />
-
+              {errorFecha && (
+                <div className="alert alert-warning text-center">
+                  {errorFecha}
+                </div>
+              )}
+              {mensaje && (
+                <div className="alert alert-danger text-center">{mensaje}</div>
+              )}
               <button
                 type="submit"
                 className="btn w-100 fw-bold text-white"
@@ -220,16 +253,11 @@ function TurnosPage() {
                   border: "none",
                 }}
               >
-                {modoEdicion
-                  ? "Actualizar Turno"
-                  : "Reservar Turno"}
+                {modoEdicion ? "Actualizar Turno" : "Reservar Turno"}
               </button>
-
             </form>
-          </div><h2
-            className="fw-bold mb-4"
-            style={{ color: "#2E8B4D" }}
-          >
+          </div>
+          <h2 className="fw-bold mb-4" style={{ color: "#2E8B4D" }}>
             Turnos Reservados
           </h2>
 
@@ -254,11 +282,7 @@ function TurnosPage() {
                     }}
                   >
                     <div className="card-body">
-
-                      <h3
-                        className="fw-bold mb-3"
-                        style={{ color: "#2E8B4D" }}
-                      >
+                      <h3 className="fw-bold mb-3" style={{ color: "#2E8B4D" }}>
                         👤 {turno.nombre}
                       </h3>
 
@@ -267,8 +291,7 @@ function TurnosPage() {
                       </p>
 
                       <p>
-                        <strong>💈 Servicio:</strong>{" "}
-                        {turno.servicio?.nombre}
+                        <strong>💈 Servicio:</strong> {turno.servicio?.nombre}
                       </p>
 
                       <p>
@@ -286,7 +309,6 @@ function TurnosPage() {
                       <hr />
 
                       <div className="d-flex gap-2">
-
                         <button
                           className="btn text-white"
                           style={{
@@ -304,15 +326,14 @@ function TurnosPage() {
                         >
                           🗑️ Eliminar
                         </button>
-
                       </div>
-
                     </div>
                   </div>
                 </div>
               ))}
             </div>
-          )}</div>
+          )}
+        </div>
       </div>
 
       <Footer />
