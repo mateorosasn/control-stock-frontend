@@ -242,14 +242,10 @@ function Admin() {
                     </p>
 
                     <hr />
-
                     <div className="d-flex gap-2">
                       <button
                         className="btn btn-success"
-                        onClick={() => {
-                          setTurnoAEliminar(turno._id);
-                          setMostrarModal(true);
-                        }}
+                        onClick={() => confirmarTurno(turno)}
                         disabled={
                           turno.estado === "Confirmado" ||
                           new Date(turno.fecha) <
@@ -306,11 +302,11 @@ function Admin() {
                 </button>
 
                 <button
-                  className="btn btn-danger"
-                  onClick={() => eliminarTurno(turnoAEliminar._id)}
-                >
-                  🗑 Eliminar
-                </button>
+  className="btn btn-danger"
+  onClick={() => eliminarTurno(turnoAEliminar._id)}
+>
+  🗑 Eliminar
+</button>
               </div>
             </div>
           </div>

@@ -1,8 +1,17 @@
 import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import axios from "axios";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 
 function Error404() {
+  const [mensaje, setMensaje] = useState("");
+
+  useEffect(() => {
+    axios.get("http://localhost:3000/ruta-no-existe").catch((error) => {
+      setMensaje(error.response.data.message);
+    });
+  }, []);
   return (
     <>
       <Navbar />
@@ -16,25 +25,14 @@ function Error404() {
         }}
       >
         <div className="text-center">
-
-          <div
+          <img
+            src="   https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0Saupkev_2gvfJwmyWFscAzW4FXJDnnGYJsOZ81CLfw&s=10            "
+            alt="Error 404"
             style={{
-              fontSize: "90px",
+              width: "450px",
+              marginBottom: "50px",
             }}
-          >
-            🦖 ❌
-          </div>
-
-          <h1
-            className="fw-bold"
-            style={{
-              fontSize: "7rem",
-              color: "#2E8B4D",
-            }}
-          >
-            404
-          </h1>
-
+          />
 
           <h2
             className="fw-bold mb-3"
@@ -45,11 +43,9 @@ function Error404() {
             Página no encontrada
           </h2>
 
-
           <p className="lead mb-4">
-            Nuestro dinosaurio no encontró esta sección 💈
+            {mensaje || "Nuestro dinosaurio no encontró esta sección 💈"}
           </p>
-
 
           <Link
             to="/"
@@ -62,7 +58,6 @@ function Error404() {
           >
             Volver al inicio
           </Link>
-
         </div>
       </div>
 

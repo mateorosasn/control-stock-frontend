@@ -9,6 +9,7 @@ function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [mostrarPassword, setMostrarPassword] = useState(false);
+  const [mensaje, setMensaje] = useState("");
 
   const registrarUsuario = async (e) => {
     e.preventDefault();
@@ -20,7 +21,7 @@ function Register() {
         password,
       });
 
-      alert(respuesta.data.message);
+      setMensaje("✅ Usuario registrado correctamente.");
 
       setNombre("");
       setEmail("");
@@ -28,7 +29,7 @@ function Register() {
 
       navigate("/login");
     } catch (error) {
-      alert(error.response?.data?.message || "Error al registrar");
+      setMensaje(error.response?.data?.message || "Error al registrar.");
     }
   };
 
@@ -66,24 +67,15 @@ function Register() {
         <div className="text-center mb-4">
           <h1>💈</h1>
 
-          <h2
-            className="fw-bold"
-            style={{ color: "#2E8B4D" }}
-          >
+          <h2 className="fw-bold" style={{ color: "#2E8B4D" }}>
             Crear Cuenta
           </h2>
 
-          <p className="text-light">
-            Registrate para reservar tus turnos
-          </p>
+          <p className="text-light">Registrate para reservar tus turnos</p>
         </div>
-
         <form onSubmit={registrarUsuario}>
           <div className="mb-3">
-            <label
-              className="form-label"
-              style={{ color: "#2E8B4D" }}
-            >
+            <label className="form-label" style={{ color: "#2E8B4D" }}>
               Nombre
             </label>
 
@@ -98,10 +90,7 @@ function Register() {
           </div>
 
           <div className="mb-3">
-            <label
-              className="form-label"
-              style={{ color: "#2E8B4D" }}
-            >
+            <label className="form-label" style={{ color: "#2E8B4D" }}>
               Correo electrónico
             </label>
 
@@ -116,10 +105,7 @@ function Register() {
           </div>
 
           <div className="mb-3">
-            <label
-              className="form-label"
-              style={{ color: "#2E8B4D" }}
-            >
+            <label className="form-label" style={{ color: "#2E8B4D" }}>
               Contraseña
             </label>
 
@@ -142,13 +128,14 @@ function Register() {
               onChange={() => setMostrarPassword(!mostrarPassword)}
             />
 
-            <label
-              className="form-check-label"
-              htmlFor="mostrarPassword"
-            >
+            <label className="form-check-label" htmlFor="mostrarPassword">
               Mostrar contraseña
             </label>
           </div>
+
+          {mensaje && (
+            <div className="alert alert-info text-center">{mensaje}</div>
+          )}
 
           <button
             className="btn w-100 fw-bold text-white"
@@ -161,13 +148,9 @@ function Register() {
             Registrarse
           </button>
         </form>
-
         <hr style={{ borderColor: "#2E8B4D" }} />
-
         <div className="text-center">
-          <small className="text-light">
-            ¿Ya tenés una cuenta?
-          </small>
+          <small className="text-light">¿Ya tenés una cuenta?</small>
 
           <br />
 
