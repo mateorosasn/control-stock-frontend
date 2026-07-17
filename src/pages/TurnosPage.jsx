@@ -29,6 +29,7 @@ function TurnosPage() {
   const [idEditando, setIdEditando] = useState(null);
   const [mensaje, setMensaje] = useState("");
   const [errorFecha, setErrorFecha] = useState("");
+  const usuario = JSON.parse(localStorage.getItem("usuario"));
 
   const cargarTurnos = async () => {
     try {
@@ -76,10 +77,24 @@ function TurnosPage() {
   }, []);
   const handleSubmit = async (e) => {
     e.preventDefault();
+    if (!usuario) {
+      setMensaje(
+        "⚠️ Debes iniciar sesión o registrarte para reservar un turno.",
+      );
+      return;
+    }
 
     // Limpiar mensaje anterior
     setMensaje("");
     setErrorFecha("");
+    if (telefono.length < 8) {
+      setMensaje("❌ Ingresá un teléfono válido.");
+      return;
+    }
+    if (nombre.trim().length < 3) {
+      setMensaje("❌ Ingresá un nombre válido.");
+      return;
+    }
 
     const hoy = new Date().toISOString().split("T")[0];
 
@@ -105,13 +120,14 @@ function TurnosPage() {
         setIdEditando(null);
       } else {
         await crearTurno({
-          nombre,
-          telefono,
-          servicio,
-          barbero,
-          fecha,
-          hora,
-        });
+  usuario: usuario._id,
+  nombre,
+  telefono,
+  servicio,
+  barbero,
+  fecha,
+  hora,
+});
       }
 
       await cargarTurnos();
@@ -122,15 +138,26 @@ function TurnosPage() {
       setBarbero("Juan Pérez");
       setFecha("");
       setHora("");
-      setMensaje("");
+      setMensaje(
+        "✅ ¡Turno reservado correctamente! Te esperamos en la barbería.",
+      );
     } catch (error) {
       console.log(error);
 
       if (error.response) {
         setMensaje(error.response.data.message);
       } else {
-        setMensaje("Error al reservar el turno.");
+        setMensaje("Error al reservar el turno");
       }
+    }
+  };
+  const handleEliminar = async (id) => {
+    try {
+      await eliminarTurno(id);
+      await cargarTurnos();
+    } catch (error) {
+      console.log(error);
+      setMensaje("Error al eliminar turno");
     }
   };
 
@@ -243,7 +270,13 @@ function TurnosPage() {
                 </div>
               )}
               {mensaje && (
-                <div className="alert alert-danger text-center">{mensaje}</div>
+                <div
+                  className={`alert text-center ${
+                    mensaje.startsWith("✅") ? "alert-success" : "alert-danger"
+                  }`}
+                >
+                  {mensaje}
+                </div>
               )}
               <button
                 type="submit"
@@ -308,25 +341,27 @@ function TurnosPage() {
 
                       <hr />
 
-                      <div className="d-flex gap-2">
-                        <button
-                          className="btn text-white"
-                          style={{
-                            backgroundColor: "#2E8B4D",
-                            border: "none",
-                          }}
-                          onClick={() => handleEditar(turno)}
-                        >
-                          ✏️ Editar
-                        </button>
+                      {usuario && (
+                        <div className="d-flex gap-2">
+                          <button
+                            className="btn text-white"
+                            style={{
+                              backgroundColor: "#2E8B4D",
+                              border: "none",
+                            }}
+                            onClick={() => handleEditar(turno)}
+                          >
+                            ✏️ Editar
+                          </button>
 
-                        <button
-                          className="btn btn-danger"
-                          onClick={() => handleEliminar(turno._id)}
-                        >
-                          🗑️ Eliminar
-                        </button>
-                      </div>
+                          <button
+                            className="btn btn-danger"
+                            onClick={() => handleEliminar(turno._id)}
+                          >
+                            🗑️ Eliminar
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
