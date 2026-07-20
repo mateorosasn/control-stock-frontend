@@ -8,6 +8,7 @@ import Login from "../pages/Login";
 import Register from "../pages/Register";
 import Admin from "../pages/Admin";
 import Error404 from "../pages/Error404";
+import Nosotros from "../pages/Nosotros";
 
 function AppRouter() {
   return (
@@ -20,6 +21,7 @@ function AppRouter() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route path="/admin" element={<Admin />} />
+         <Route path="/nosotros" element={<Nosotros />} />
         <Route path="*" element={<Error404 />} />
       </Routes>
     </BrowserRouter>

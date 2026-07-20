@@ -44,7 +44,8 @@ function Error404() {
           </h2>
 
           <p className="lead mb-4">
-            {mensaje || "Nuestro dinosaurio no encontró esta sección 💈"}
+            {mensaje ||
+              "Parece que esta seccion todavia no existe en nuestra barberia"}
           </p>
 
           <Link

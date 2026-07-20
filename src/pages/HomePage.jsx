@@ -138,6 +138,13 @@ function HomePage() {
               <h2>✂️</h2>
               <h4 style={{ color: "#2E8B4D" }}>Cortes Modernos</h4>
               <p>Trabajamos con las últimas tendencias y estilos clásicos.</p>
+              <Link
+                to="/nosotros "
+                className="btn mt-3 text-white"
+                style={{ backgroundColor: "#2E8B4D" }}
+              >
+                Conocer más
+              </Link>{" "}
             </div>
           </div>
 
@@ -149,6 +156,14 @@ function HomePage() {
               <h2>🧔</h2>
               <h4 style={{ color: "#2E8B4D" }}>Barba Premium</h4>
               <p>Perfilado y cuidado con productos profesionales.</p>
+
+              <Link
+                to="/nosotros"
+                className="btn mt-3 text-white"
+                style={{ backgroundColor: "#2E8B4D" }}
+              >
+                Conocer más
+              </Link>
             </div>
           </div>
 
@@ -160,6 +175,13 @@ function HomePage() {
               <h2>⭐</h2>
               <h4 style={{ color: "#2E8B4D" }}>Atención Personalizada</h4>
               <p>Cada cliente recibe un servicio único.</p>
+              <Link
+                to="/nosotros"
+                className="btn mt-3 text-white"
+                style={{ backgroundColor: "#2E8B4D" }}
+              >
+                Conocer más
+              </Link>{" "}
             </div>
           </div>
 
@@ -171,6 +193,13 @@ function HomePage() {
               <h2>🕒</h2>
               <h4 style={{ color: "#2E8B4D" }}>Puntualidad</h4>
               <p>Respetamos el horario de cada turno para evitar esperas.</p>
+              <Link
+                to="/nosotros"
+                className="btn mt-3 text-white"
+                style={{ backgroundColor: "#2E8B4D" }}
+              >
+                Conocer más
+              </Link>{" "}
             </div>
           </div>
           <div className="col-md-4 mb-4">
@@ -179,10 +208,15 @@ function HomePage() {
               style={{ border: "2px solid #2E8B4D" }}
             >
               <h2>🧴</h2>
-
               <h4 style={{ color: "#2E8B4D" }}>Productos Profesionales</h4>
-
               <p>Utilizamos productos de calidad para cuidar tu estilo.</p>
+              <Link
+                to="/nosotros"
+                className="btn mt-3 text-white"
+                style={{ backgroundColor: "#2E8B4D" }}
+              >
+                Conocer más
+              </Link>{" "}
             </div>
           </div>
 
@@ -192,10 +226,15 @@ function HomePage() {
               style={{ border: "2px solid #2E8B4D" }}
             >
               <h2>🏆</h2>
-
               <h4 style={{ color: "#2E8B4D" }}>Barberos Expertos</h4>
-
               <p>Profesionales capacitados para lograr el mejor resultado.</p>
+              <Link
+                to="/nosotros"
+                className="btn mt-3 text-white"
+                style={{ backgroundColor: "#2E8B4D" }}
+              >
+                Conocer más
+              </Link>{" "}
             </div>
           </div>
         </div>
@@ -216,145 +255,74 @@ function HomePage() {
         </h2>
 
         <div className="row">
-          <div className="col-md-4 mb-4">
-            <div
-              className="card shadow text-center"
-              style={{ border: "2px solid #2E8B4D" }}
-            >
-              <img
-                src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=600&q=80"
-                className="card-img-top"
+          {[
+            {
+              nombre: "Juan Pérez",
+              imagen:
+                "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=600&q=80",
+              especialidad: "Especialista en Fade",
+              experiencia: "8 años de experiencia",
+              logro: "Ganador de concursos regionales de barbería",
+              descripcion:
+                "Juan se especializa en cortes modernos, degradados perfectos y estilos personalizados adaptados a cada cliente.",
+            },
+
+            {
+              nombre: "Carlos Gómez",
+              imagen:
+                "https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=600&q=80",
+              especialidad: "Especialista en Barba",
+              experiencia: "10 años de experiencia",
+              logro: "Reconocido por técnicas de perfilado profesional",
+              descripcion:
+                "Carlos combina técnicas clásicas y modernas para lograr barbas prolijas y estilos únicos.",
+            },
+
+            {
+              nombre: "Lucas Díaz",
+              imagen:
+                "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80",
+              especialidad: "Estilos Modernos",
+              experiencia: "6 años de experiencia",
+              logro: "Especialista en tendencias actuales",
+              descripcion:
+                "Lucas trabaja con los cortes más actuales, creando estilos personalizados para cada cliente.",
+            },
+          ].map((barbero, index) => (
+            <div className="col-md-4 mb-4" key={index}>
+              <div
+                className="card shadow h-100 text-center"
                 style={{
-                  height: "350px",
-                  objectFit: "cover",
+                  border: "2px solid #2E8B4D",
+                  borderRadius: "20px",
                 }}
-                alt="Barbero"
-              />
+              >
+                <img
+                  src={barbero.imagen}
+                  className="card-img-top"
+                  style={{
+                    height: "350px",
+                    objectFit: "cover",
+                    borderRadius: "18px 18px 0 0",
+                  }}
+                />
 
-              <div className="card-body">
-                <h5 style={{ color: "#2E8B4D" }}>Juan Pérez</h5>
+                <div className="card-body">
+                  <h4 style={{ color: "#2E8B4D" }}>{barbero.nombre}</h4>
 
-                <p>Especialista en Fade.</p>
+                  <h6>{barbero.especialidad}</h6>
+
+                  <p>⭐ {barbero.experiencia}</p>
+
+                  <p>🏆 {barbero.logro}</p>
+
+                  <p>{barbero.descripcion}</p>
+                </div>
               </div>
             </div>
-          </div>
-
-          <div className="col-md-4 mb-4">
-            <div
-              className="card shadow text-center"
-              style={{ border: "2px solid #2E8B4D" }}
-            >
-              <img
-                src="https://images.unsplash.com/photo-1517832606299-7ae9b720a186?auto=format&fit=crop&w=600&q=80"
-                className="card-img-top"
-                style={{
-                  height: "350px",
-                  objectFit: "cover",
-                }}
-                alt="Barbero"
-              />
-
-              <div className="card-body">
-                <h5 style={{ color: "#2E8B4D" }}>Carlos Gómez</h5>
-
-                <p>Especialista en Barba.</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 mb-4">
-            <div
-              className="card shadow text-center"
-              style={{ border: "2px solid #2E8B4D" }}
-            >
-              <img
-                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80"
-                className="card-img-top"
-                style={{
-                  height: "350px",
-                  objectFit: "cover",
-                }}
-                alt="Barbero"
-              />
-
-              <div className="card-body">
-                <h5 style={{ color: "#2E8B4D" }}>Lucas Díaz</h5>
-
-                <p>Especialista en Estilos Modernos.</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 mb-4">
-            <div
-              className="card shadow text-center"
-              style={{ border: "2px solid #2E8B4D" }}
-            >
-              <img
-                src="https://images.unsplash.com/photo-1521119989659-a83eee488004?auto=format&fit=crop&w=600&q=80"
-                className="card-img-top"
-                style={{
-                  height: "350px",
-                  objectFit: "cover",
-                }}
-                alt="Barbero"
-              />
-
-              <div className="card-body">
-                <h5 style={{ color: "#2E8B4D" }}>Matías López</h5>
-
-                <p>Especialista en Afeitado Tradicional.</p>
-              </div>
-            </div>
-          </div>
-          <div className="col-md-4 mb-4">
-            <div
-              className="card shadow text-center"
-              style={{ border: "2px solid #2E8B4D" }}
-            >
-              <img
-                src="https://images.unsplash.com/photo-1519345182560-3f2917c472ef?auto=format&fit=crop&w=600&q=80"
-                className="card-img-top"
-                style={{
-                  height: "350px",
-                  objectFit: "cover",
-                }}
-                alt="Barbero"
-              />
-
-              <div className="card-body">
-                <h5 style={{ color: "#2E8B4D" }}>Franco Ruiz</h5>
-
-                <p>Especialista en Cortes Clásicos.</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="col-md-4 mb-4">
-            <div
-              className="card shadow text-center"
-              style={{ border: "2px solid #2E8B4D" }}
-            >
-              <img
-                src="https://images.unsplash.com/photo-1504593811423-6dd665756598?auto=format&fit=crop&w=600&q=80"
-                className="card-img-top"
-                style={{
-                  height: "350px",
-                  objectFit: "cover",
-                }}
-                alt="Barbero"
-              />
-
-              <div className="card-body">
-                <h5 style={{ color: "#2E8B4D" }}>Agustín Sosa</h5>
-
-                <p>Especialista en Diseños Personalizados.</p>
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
-
       {/* CTA FINAL */}
 
       <div className="bg-dark text-white py-5">

@@ -16,48 +16,29 @@ function ServicesPage() {
         }}
       >
         <div className="text-center">
-
-          <div
-            style={{
-              fontSize: "90px",
-              marginBottom: "10px",
-            }}
-          >
-            🦖 
-          </div>
-
-
-          <h1
-            className="fw-bold"
-            style={{
-              fontSize: "7rem",
-              color: "#2E8B4D",
-              margin: "0",
-            }}
-          >
-            404
-          </h1>
-
-
-          <h2
-            className="fw-bold mb-3"
-            style={{
-              color: "#2E8B4D",
-            }}
-          >
-            Página no encontrada
-          </h2>
-
-
           <p
             className="lead mb-4"
             style={{
               color: "white",
             }}
           >
-            Nuestro dinosaurio no encontró esta sección 💈
+            <img
+              src="   https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT0Saupkev_2gvfJwmyWFscAzW4FXJDnnGYJsOZ81CLfw&s=10            "
+              alt="Error 404"
+              style={{
+                width: "450px",
+                marginBottom: "50px",
+              }}
+            />
+            <h2
+              className="fw-bold mb-3 text center "
+              style={{
+                color: "#2E8B4D",
+              }}
+            >
+              Página no encontrada
+            </h2>
           </p>
-
 
           <Link
             to="/"
@@ -70,10 +51,8 @@ function ServicesPage() {
           >
             Volver al inicio
           </Link>
-
         </div>
       </div>
-
 
       <Footer />
     </>
