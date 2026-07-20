@@ -40,7 +40,6 @@ function TurnosPage() {
 
       if (error.response) {
         setMensaje(error.response.data.message);
-        s;
       } else {
         setMensaje("Error al reservar el turno");
       }
@@ -119,15 +118,16 @@ function TurnosPage() {
         setModoEdicion(false);
         setIdEditando(null);
       } else {
+        console.log("usuario que manda turno:", usuario);
         await crearTurno({
-  usuario: usuario._id,
-  nombre,
-  telefono,
-  servicio,
-  barbero,
-  fecha,
-  hora,
-});
+          usuario: usuario._id,
+          nombre,
+          telefono,
+          servicio,
+          barbero,
+          fecha,
+          hora,
+        });
       }
 
       await cargarTurnos();

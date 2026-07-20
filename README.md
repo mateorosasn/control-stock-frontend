@@ -1,193 +1,220 @@
-# 💈 Barbería Premium - Frontend
+# 💈 Barbería Web - Frontend
 
-## 📖 Descripción
+## 📌 Descripción del proyecto
 
-Barbería Premium es una aplicación web desarrollada con React y Vite que permite a los usuarios conocer los servicios ofrecidos por la barbería, visualizar el equipo de barberos, registrarse, iniciar sesión y reservar turnos de manera rápida e intuitiva.
+Barbería Web es una aplicación frontend desarrollada para la gestión de una barbería moderna.
 
-El frontend consume una API REST desarrollada con Node.js y Express, la cual administra toda la información relacionada con usuarios, servicios y turnos almacenados en MongoDB Atlas.
+El objetivo principal del proyecto es brindar una plataforma donde los clientes puedan registrarse, iniciar sesión, consultar los servicios disponibles y reservar turnos de manera sencilla e intuitiva.
 
-El objetivo del proyecto es brindar una experiencia moderna, sencilla y organizada tanto para los clientes como para el administrador del sistema.
+La aplicación fue diseñada con una interfaz moderna, enfocada en una buena experiencia de usuario y en la organización de las principales funcionalidades de una barbería.
+
+El desarrollo del frontend se realizó utilizando React, implementando componentes reutilizables, manejo de estados, navegación entre páginas y comunicación con un backend propio mediante peticiones HTTP.
 
 ---
 
 # 🚀 Tecnologías utilizadas
 
-- React
-- Vite
-- React Router DOM
-- Axios
-- Bootstrap 5
-- CSS3
-- JavaScript (ES6)
+Para el desarrollo del proyecto se utilizaron las siguientes tecnologías:
+
+## React
+
+Utilizado como biblioteca principal para la construcción de la interfaz de usuario.
+
+Permitió crear componentes dinámicos, reutilizables y administrar la información mostrada en pantalla.
+
+## Vite
+
+Utilizado como herramienta de desarrollo para crear y ejecutar el proyecto frontend de manera rápida y eficiente.
+
+## JavaScript
+
+Lenguaje utilizado para la lógica de la aplicación y manejo de funcionalidades.
+
+## React Router DOM
+
+Utilizado para la navegación entre las diferentes páginas del sistema.
+
+## Axios
+
+Utilizado para realizar la comunicación entre el frontend y el backend mediante solicitudes HTTP.
+
+## Bootstrap y CSS
+
+Utilizados para el diseño visual de la aplicación, creación de componentes y adaptación de la interfaz.
 
 ---
 
-# 🎨 Funcionalidades implementadas
+# 📂 Organización del proyecto
 
-## 🏠 Página Principal
+El frontend se encuentra organizado de manera modular para facilitar el mantenimiento y escalabilidad.
 
-La página principal presenta la identidad visual de Barbería Premium mediante un diseño moderno y responsive.
+La estructura principal contiene:
+
+## Components
+
+Contiene componentes reutilizables utilizados en diferentes partes de la aplicación.
+
+Ejemplos:
+
+- Navbar.
+- Footer.
+
+## Pages
+
+Contiene las diferentes vistas principales del sistema.
 
 Incluye:
 
-- Carrusel de imágenes.
-- Sección de presentación.
-- Acceso rápido a la reserva de turnos.
-- Información sobre la barbería.
-- Equipo de barberos.
-- Footer con información de contacto.
+- Página de inicio.
+- Página de turnos.
+- Página de servicios.
+- Página de barberos.
+- Página de inicio de sesión.
+- Página de registro.
+- Panel administrador.
+- Página de información.
+- Página de error 404.
 
----
+## Services
 
-## ✂️ Servicios
+Contiene los archivos encargados de la comunicación con el backend.
 
-Los usuarios pueden visualizar todos los servicios registrados desde la base de datos.
-
-Cada servicio muestra su información de forma clara para facilitar la elección antes de reservar un turno.
-
----
-
-## 💈 Equipo de Barberos
-
-Se muestra el equipo profesional de la barbería junto con una breve descripción de cada integrante.
-
----
-
-## 📅 Reserva de Turnos
-
-Los clientes pueden reservar turnos completando un formulario donde se solicita:
-
-- Nombre
-- Teléfono
-- Servicio
-- Barbero
-- Fecha
-- Hora
-
-El sistema realiza distintas validaciones antes de guardar la reserva.
-
----
-
-## ✅ Validaciones implementadas
-
-Durante el desarrollo se agregaron diversas validaciones para mejorar la experiencia del usuario.
-
-Entre ellas:
-
-- Campos obligatorios.
-- Validación del teléfono.
-- No permite seleccionar fechas inválidas.
-- No permite reservar horarios ocupados.
-- Mensajes de error claros para el usuario.
-
----
-
-## 👤 Registro e Inicio de Sesión
-
-El sistema permite crear nuevas cuentas e iniciar sesión.
-
-Dependiendo del tipo de usuario se habilitan distintas funcionalidades.
-
----
-
-## 🔐 Panel Administrador
-
-Los administradores pueden:
-
-- Visualizar todos los turnos.
-- Confirmar reservas.
-- Eliminar turnos.
-- Buscar clientes.
-- Administrar la información del sistema.
-
----
-
-## ❌ Manejo de errores
-
-El frontend incorpora una página personalizada para el Error 404.
-
-Además consume las respuestas enviadas por el backend para informar correctamente cuando un recurso solicitado no existe.
-
----
-
-# 📱 Responsive Design
-
-La aplicación fue desarrollada para adaptarse correctamente a:
-
-- Computadoras.
-- Tablets.
-- Dispositivos móviles.
-
----
-
-# 🔗 Comunicación con el Backend
-
-Toda la información utilizada por la aplicación se obtiene mediante solicitudes HTTP utilizando Axios.
-
-El frontend consume los endpoints desarrollados con Express para:
+Permite organizar las peticiones relacionadas con:
 
 - Usuarios.
+- Autenticación.
 - Turnos.
-- Servicios.
+
+## Router
+
+Contiene la configuración de las rutas principales de la aplicación.
 
 ---
 
-# ▶️ Instalación
+# ✨ Funcionalidades desarrolladas
 
-Clonar el repositorio
+## 🏠 Página principal
 
-```bash
-git clone URL_DEL_FRONTEND
-```
-
-Ingresar al proyecto
-
-```bash
-cd frontend
-```
-
-Instalar dependencias
-
-```bash
-npm install
-```
-
-Ejecutar el proyecto
-
-```bash
-npm run dev
-```
+Cuenta con una presentación general de la barbería, permitiendo al usuario acceder a las diferentes secciones del sistema.
 
 ---
 
-# 📂 Estructura del proyecto
+# 👤 Sistema de usuarios
 
-```
-src/
-│
-├── components/
-├── pages/
-├── router/
-├── services/
-├── assets/
-├── App.jsx
-└── main.jsx
-```
+Se desarrolló un sistema de registro e inicio de sesión.
 
----
+Permite:
 
-# 👨‍💻 Autor
+- Crear cuentas.
+- Iniciar sesión.
+- Cerrar sesión.
+- Validar información ingresada.
 
-**Mateo Rosas**
+Se incorporaron validaciones como:
 
-Proyecto desarrollado para **Rolling Code School** como trabajo final del curso de Desarrollo Web Full Stack.
+- Campos obligatorios.
+- Formato correcto del correo electrónico.
+- Contraseñas con requisitos mínimos.
 
 ---
 
-# 📌 Estado del Proyecto
+# 💈 Gestión de turnos
 
-🟢 En desarrollo avanzado.
+Los usuarios pueden realizar reservas seleccionando:
 
-Actualmente el proyecto cuenta con aproximadamente un 92 % de desarrollo, incluyendo frontend completamente funcional e integración con el backend mediante una API REST.
+- Nombre.
+- Teléfono.
+- Servicio.
+- Barbero.
+- Fecha.
+- Horario.
 
-Las mejoras futuras incluyen el despliegue en producción, optimizaciones visuales y nuevas funcionalidades para la administración del sistema.
+Además pueden:
+
+- Crear turnos.
+- Visualizar reservas.
+- Editar información de un turno.
+- Eliminar turnos.
+
+También se implementaron controles para mejorar la experiencia:
+
+- Validación de datos.
+- Control de fechas.
+- Avisos al usuario.
+- Manejo de errores.
+
+---
+
+# ✂️ Servicios de la barbería
+
+La aplicación permite visualizar los servicios disponibles ofrecidos por la barbería.
+
+Los datos son obtenidos desde el backend y mostrados dinámicamente dentro de la interfaz.
+
+---
+
+# 🧔 Sección de barberos
+
+Se creó una sección destinada a mostrar los profesionales disponibles dentro de la barbería.
+
+---
+
+# 🛠️ Panel de administración
+
+Se desarrolló un panel administrador para gestionar las reservas realizadas.
+
+Sus principales funciones son:
+
+- Visualizar todos los turnos.
+- Buscar clientes.
+- Confirmar reservas.
+- Eliminar turnos.
+- Visualizar estados de las reservas.
+
+---
+
+# ❌ Página de error 404
+
+Se implementó una página personalizada para manejar rutas inexistentes.
+
+Cuando el usuario ingresa a una dirección incorrecta, el sistema muestra una pantalla de error diseñada especialmente para la aplicación.
+
+---
+
+# 🔗 Comunicación con Backend
+
+El frontend se comunica con un backend desarrollado específicamente para el proyecto.
+
+La comunicación permite:
+
+- Obtener información.
+- Crear registros.
+- Actualizar datos.
+- Eliminar información.
+
+Para esto se utilizó Axios como herramienta de conexión con la API.
+
+---
+
+# 🎯 Objetivo del proyecto
+
+El objetivo fue desarrollar una aplicación web completa aplicando conocimientos de desarrollo frontend moderno.
+
+Durante el proyecto se trabajó con:
+
+- Componentización.
+- Manejo de estados.
+- Formularios.
+- Validaciones.
+- Navegación.
+- Consumo de APIs.
+- Diseño de interfaces.
+- Organización profesional del código.
+
+---
+
+# 👨‍💻 Proyecto Final
+
+Barbería Web es una aplicación frontend completa orientada a la gestión de una barbería.
+
+El sistema permite administrar usuarios, servicios y reservas de turnos mediante una interfaz moderna, organizada y funcional.
