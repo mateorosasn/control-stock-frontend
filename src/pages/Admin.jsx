@@ -30,7 +30,9 @@ function Admin() {
   }, []);
   const cargarTurnos = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/turnos");
+      const res = await axios.get(
+        "https://barberia-backend-p48g.onrender.com/api/turnos",
+      );
       setTurnos(res.data);
     } catch (error) {
       console.log(error);
@@ -43,7 +45,9 @@ function Admin() {
 
   const eliminarTurno = async (id) => {
     try {
-      await axios.delete(`http://localhost:3000/api/turnos/${id}`);
+      await axios.delete(
+        `https://barberia-backend-p48g.onrender.com/api/turnos/${id}`,
+      );
 
       setMostrarModal(false);
       setTurnoAEliminar(null);
@@ -56,7 +60,7 @@ function Admin() {
 
   const confirmarTurno = async (turno) => {
     try {
-      await axios.put(`http://localhost:3000/api/turnos/${turno._id}`, {
+      await axios.put(`https://barberia-backend-p48g.onrender.com/api/turnos/${turno._id}`, {
         ...turno,
         servicio: turno.servicio?._id || turno.servicio,
         estado: "Confirmado",
@@ -302,11 +306,11 @@ function Admin() {
                 </button>
 
                 <button
-  className="btn btn-danger"
-  onClick={() => eliminarTurno(turnoAEliminar._id)}
->
-  🗑 Eliminar
-</button>
+                  className="btn btn-danger"
+                  onClick={() => eliminarTurno(turnoAEliminar._id)}
+                >
+                  🗑 Eliminar
+                </button>
               </div>
             </div>
           </div>

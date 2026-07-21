@@ -48,7 +48,7 @@ function TurnosPage() {
 
   const cargarServicios = async () => {
     try {
-      const res = await axios.get("http://localhost:3000/api/servicios");
+      const res = await axios.get("https://barberia-backend-p48g.onrender.com/api/servicios");
 
       setServicios(res.data);
 

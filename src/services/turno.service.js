@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API = "http://localhost:3000/api/turnos";
+const API = "https://barberia-backend-p48g.onrender.com/api/turnos";
 
 export const obtenerTurnos = async () => {
   return await axios.get(API);

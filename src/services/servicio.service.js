@@ -1,7 +1,7 @@
 
 import axios from "axios";
 
-const API = "http://localhost:3000/api/servicios";
+const API = "https://barberia-backend-p48g.onrender.com/api/servicios";
 
 // 🔵 Obtener servicios
 export const obtenerServicios = async () => {

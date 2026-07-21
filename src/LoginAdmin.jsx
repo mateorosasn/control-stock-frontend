@@ -24,38 +24,28 @@ function LoginAdmin() {
 
     try {
       const res = await axios.post(
-        "http://localhost:3000/api/auth/login",
+        "https://barberia-backend-p48g.onrender.com/api/admin/login",
         {
           usuario,
           password,
-        }
+        },
       );
 
       // guardar sesión
-      localStorage.setItem(
-        "admin",
-        JSON.stringify(res.data)
-      );
+      localStorage.setItem("admin", JSON.stringify(res.data));
 
       navigate("/admin");
     } catch (error) {
-      setError(
-        error.response?.data?.message ||
-          "Error en el login"
-      );
+      setError(error.response?.data?.message || "Error en el login");
     }
   };
 
   return (
     <div className="container mt-5">
       <div className="col-md-4 mx-auto">
-
-        <h2 className="text-center">
-          Login Admin 💈
-        </h2>
+        <h2 className="text-center">Login Admin 💈</h2>
 
         <form onSubmit={handleLogin} className="card p-4">
-
           <input
             placeholder="Usuario"
             className="form-control mb-2"
@@ -73,16 +63,9 @@ function LoginAdmin() {
             required
           />
 
-          {error && (
-            <p className="text-danger text-center">
-              {error}
-            </p>
-          )}
+          {error && <p className="text-danger text-center">{error}</p>}
 
-          <button className="btn btn-dark w-100">
-            Iniciar sesión
-          </button>
-
+          <button className="btn btn-dark w-100">Iniciar sesión</button>
         </form>
       </div>
     </div>

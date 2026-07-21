@@ -8,7 +8,7 @@ function Error404() {
   const [mensaje, setMensaje] = useState("");
 
   useEffect(() => {
-    axios.get("http://localhost:3000/ruta-no-existe").catch((error) => {
+    axios.get("https://barberia-backend-p48g.onrender.com").catch((error) => {
       setMensaje(error.response.data.message);
     });
   }, []);
